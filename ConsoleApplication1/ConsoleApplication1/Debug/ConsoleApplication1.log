@@ -1,0 +1,145 @@
+﻿  foxrtc.cpp
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(24): error C2065: 'UMCS_CONFIG': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(24): error C2065: 'config': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(25): error C2065: 'UMCS_CONFIG': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(25): error C2228: left of '.traceFilter' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(25): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(25): error C3861: 'configFromLogLevel': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(26): error C2065: 'UMCS_CONFIG': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(26): error C2228: left of '.traceFile' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(26): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(27): error C2065: 'UMCS_MAX_PATH_LEN': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(28): error C2065: 'UMCS_CONFIG': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(28): error C2228: left of '.traceFile' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(28): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(28): error C2065: 'UMCS_MAX_PATH_LEN': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(31): error C2065: 'UMCS_MAX_PATH_LEN': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(44): error C3861: 'UMCS_INFO': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(46): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(46): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(46): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(48): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(48): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(48): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(49): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(49): error C2228: left of '.AUDIO_ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(49): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(50): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(50): error C2228: left of '.CODEC' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(50): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(50): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(50): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(51): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(51): error C2228: left of '.BASE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(51): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(51): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(51): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(52): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(52): error C2228: left of '.VOLUME_CONTROL' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(52): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(52): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(52): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(53): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(53): error C2228: left of '.HARDWARE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(53): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(53): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(53): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(54): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(54): error C2228: left of '.RTP_RTCP' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(54): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(54): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(54): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(55): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(55): error C2228: left of '.AUDIO_PROC' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(55): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(55): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(55): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(56): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(56): error C2228: left of '.EXTERNAL_MEDIA' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(56): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(56): error C2228: left of '.ENGINE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(56): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(57): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(57): error C2228: left of '.BASE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(57): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(57): error C2227: left of '->Init' must point to class/struct/union/generic type
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(59): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(59): error C2228: left of '.CAPTURE_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(59): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(59): error C2061: syntax error: identifier 'VideoCaptureSource'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(60): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(60): error C2228: left of '.CAMERA_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(60): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(60): error C2061: syntax error: identifier 'VideoCaptureSource'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(61): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(61): error C2228: left of '.AUDIO_STATE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(61): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(62): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(62): error C2228: left of '.AUDIO_STATE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(62): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(64): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(64): error C2228: left of '.DEVICE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(64): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(64): error C2653: 'VideoCaptureFactory': is not a class or namespace name
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(64): error C3861: 'CreateDeviceInfo': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): error C2228: left of '.LOCAL_ID' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): error C2228: left of '.BASE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(65): error C2227: left of '->CreateChannel' must point to class/struct/union/generic type
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): error C2228: left of '.CAMERA_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): error C2227: left of '->AddOrUpdateSink' must point to class/struct/union/generic type
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): error C2228: left of '.PREVIEW_SINK' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(67): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(75): error C3861: 'LIVE_Stop': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(76): error C3861: 'UMCS_StopRecordCall': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(77): error C3861: 'UMCS_StopPlayFile': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(78): error C3861: 'UMCS_EnableMicTest': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(79): error C3861: 'UMCS_StopPreview': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(81): error C2065: 'VOE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(81): error C2228: left of '.REMOTE_AUDIOS' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(81): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(82): error C2065: 'audio': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(82): error C2228: left of '.first' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(82): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(85): error C3861: 'UMCS_DeleteRemoteAudio': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(88): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(88): error C2228: left of '.REMOTE_VIDEOS' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(88): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(89): error C2065: 'video': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(89): error C2228: left of '.first' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(89): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(92): error C3861: 'UMCS_DeleteRemoteVideo': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(94): error C3861: 'UMCS_DeleteLocalAudio': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(95): error C3861: 'UMCS_DeleteCameraVideo': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(96): error C3861: 'UMCS_DeleteCaptureVideo': identifier not found
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(97): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(97): error C2228: left of '.DEVICE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(97): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(98): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(98): error C2228: left of '.DEVICE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(98): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(99): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(99): error C2228: left of '.DEVICE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(99): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(101): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(101): error C2228: left of '.CAPTURE_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(101): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(102): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(102): error C2228: left of '.CAPTURE_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(102): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(102): error C2227: left of '->StopCapture' must point to class/struct/union/generic type
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(103): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(103): error C2228: left of '.CAPTURE_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(103): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(104): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(104): error C2228: left of '.CAPTURE_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(104): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(106): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(106): error C2228: left of '.CAMERA_SOURCE' must have class/struct/union
+  c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(106): note: type is 'unknown-type'
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(107): error C2065: 'VIE': undeclared identifier
+c:\users\zhang\code\foxrtc\consoleapplication1\consoleapplication1\foxrtc.cpp(107): fatal error C1003: error count exceeds 100; stopping compilation
