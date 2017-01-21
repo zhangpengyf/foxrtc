@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:foxrtc_demo_mac/../foxrtc/foxrtc.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:foxrtc_demo_mac/foxrtc_demo_mac.xcodeproj">
+   </FileRef>
+</Workspace>
