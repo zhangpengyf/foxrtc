@@ -13,10 +13,115 @@
 #include "webrtc/system_wrappers/include/rw_lock_wrapper.h"
 #include "webrtc/system_wrappers/include/event_wrapper.h"
 #include "scoped_ptr.h"
+#include "webrtc/modules/video_render/video_render.h"+
+#include "webrtc/config.h"
+#include "webrtc/logging/rtc_event_log/rtc_event_log.h"
+#include "webrtc/media/engine/webrtcvoe.h"
+#include "webrtc/modules/audio_coding/codecs/builtin_audio_decoder_factory.h"
+#include "webrtc/base/asyncpacketsocket.h"
+#include "webrtc/video_encoder.h"
+#include "webrtc/video_decoder.h"
+#include "webrtc/modules/video_coding/codec_database.h"
+#include "webrtc/test/frame_generator_capturer.h"
 #include "webrtc/modules/video_capture/video_capture_factory.h"
-#include "webrtc/modules/video_render/video_render.h"
+#include "webrtc/modules/video_capture/video_capture.h"
+
+
 using namespace webrtc;
 using namespace rtc;
+
+Call* g_call = nullptr;
+webrtc::AudioSendStream* g_audioSendStream = nullptr;
+webrtc::AudioReceiveStream* g_audioReceiveStream = nullptr;
+webrtc::VideoSendStream* g_videoSendStream = nullptr;
+webrtc::VideoReceiveStream* g_videoReceiveStream = nullptr;
+
+int g_audioSendChannelId = -1;
+int g_audioReceiveChannelId = -1;
+int g_videoSendChannelId = -1;
+int g_videoReceiveChannelId = -1;
+
+webrtc::VideoCodec g_videoCodec;
+
+class EncoderStreamFactory : public webrtc::VideoEncoderConfig::VideoStreamFactoryInterface {
+public:
+    EncoderStreamFactory(std::string codec_name,
+                         int max_qp,
+                         int max_framerate,
+                         bool is_screencast,
+                         bool conference_mode)
+    : codec_name_(codec_name),
+    max_qp_(max_qp),
+    max_framerate_(max_framerate),
+    is_screencast_(is_screencast),
+    conference_mode_(conference_mode) {}
+    
+private:
+    std::vector<webrtc::VideoStream> CreateEncoderStreams(
+                                                          int width,
+                                                          int height,
+                                                          const webrtc::VideoEncoderConfig& encoder_config) override {
+        RTC_DCHECK(encoder_config.number_of_streams > 1 ? !is_screencast_ : true);
+        
+        
+        webrtc::VideoStream stream;
+        stream.width = width;
+        stream.height = height;
+        stream.max_framerate = max_framerate_;
+        stream.min_bitrate_bps = 100 * 1000;
+        stream.target_bitrate_bps = stream.max_bitrate_bps = 500*1000;
+        stream.max_qp = max_qp_;
+        
+        
+        std::vector<webrtc::VideoStream> streams;
+        streams.push_back(stream);
+        return streams;
+    }
+    
+    const std::string codec_name_;
+    const int max_qp_;
+    const int max_framerate_;
+    const bool is_screencast_;
+    const bool conference_mode_;
+};
+
+
+
+class AudioLoopbackTransport:public webrtc::Transport{
+public:
+    virtual bool SendRtp(const uint8_t* packet,size_t length,const webrtc::PacketOptions& options)
+    {
+        rtc::PacketTime pTime = rtc::CreatePacketTime(0);
+        webrtc::PacketReceiver::DeliveryStatus status = g_call->Receiver()->DeliverPacket(webrtc::MediaType::AUDIO, packet, length, webrtc::PacketTime(pTime.timestamp, pTime.not_before));
+        assert(status == webrtc::PacketReceiver::DeliveryStatus::DELIVERY_OK);
+        return true;
+    }
+    virtual bool SendRtcp(const uint8_t* packet, size_t length)
+    {
+        rtc::PacketTime pTime = rtc::CreatePacketTime(0);
+        webrtc::PacketReceiver::DeliveryStatus status = g_call->Receiver()->DeliverPacket(webrtc::MediaType::AUDIO, packet, length, webrtc::PacketTime(pTime.timestamp, pTime.not_before));
+        assert(status == webrtc::PacketReceiver::DeliveryStatus::DELIVERY_OK);
+        return true;
+    }
+};
+
+class VideoLoopbackTransport:public webrtc::Transport{
+public:
+    virtual bool SendRtp(const uint8_t* packet,size_t length,const webrtc::PacketOptions& options)
+    {
+        rtc::PacketTime pTime = rtc::CreatePacketTime(0);
+        webrtc::PacketReceiver::DeliveryStatus status = g_call->Receiver()->DeliverPacket(webrtc::MediaType::VIDEO, packet, length, webrtc::PacketTime(pTime.timestamp, pTime.not_before));
+        assert(status == webrtc::PacketReceiver::DeliveryStatus::DELIVERY_OK);
+        return true;
+    }
+    virtual bool SendRtcp(const uint8_t* packet, size_t length)
+    {
+        rtc::PacketTime pTime = rtc::CreatePacketTime(0);
+        webrtc::PacketReceiver::DeliveryStatus status = g_call->Receiver()->DeliverPacket(webrtc::MediaType::VIDEO, packet, length, webrtc::PacketTime(pTime.timestamp, pTime.not_before));
+        assert(status == webrtc::PacketReceiver::DeliveryStatus::DELIVERY_OK);
+        return true;
+    }
+};
 
 class VideoSinkProxy:public rtc::VideoSinkInterface<VideoFrame>
 {
@@ -43,19 +148,8 @@ private:
     foxrtc::scoped_ptr<webrtc::CriticalSectionWrapper> _locker;
     
 };
-struct AudioSendStreamInfo {
 
-};
-struct AudioReceiveStreamInfo {
-
-};
-
-struct VideoSendStreamInfo {
-
-};
-struct VideoReceiveStreamInfo {
-    
-};
+VideoSinkProxy g_videoSink;
 
 class VideoCaptureSource
 :public rtc::VideoSourceInterface<VideoFrame>
@@ -154,13 +248,8 @@ private:
     foxrtc::scoped_ptr<webrtc::CriticalSectionWrapper> _locker;
     bool _paused = false;
 };
-typedef std::map<int, VideoSendStreamInfo*> LOCAL_VIDEO_MAP;
-typedef std::map<int, VideoReceiveStreamInfo*> REMOTE_VIDEO_MAP;
-typedef std::map<int, AudioReceiveStreamInfo*> REMOTE_AUDIO_MAP;
+
 struct UMCS_VideoEngine {
-    REMOTE_VIDEO_MAP         REMOTE_VIDEOS;
-    VideoSendStreamInfo*     CAMERA_VIDEO;
-    VideoSendStreamInfo*     CAPTURE_VIDEO;
     VideoCaptureModule::DeviceInfo* DEVICE;
     VideoCaptureSource*      CAMERA_SOURCE;
     VideoCaptureSource*      CAPTURE_SOURCE;
@@ -168,6 +257,7 @@ struct UMCS_VideoEngine {
     webrtc::Transport*       TRANSPORT;
     VideoRender*             PREVIEW_RENDER;
     VideoSinkProxy           PREVIEW_SINK;
+    int                      LOCAL_SSRC;
 }VIE;
 struct UMCS_AudioEngine{
     VoiceEngine*             ENGINE;
@@ -181,14 +271,14 @@ struct UMCS_AudioEngine{
     VoENetwork*              NETWORK;
     VoEAudioProcessing*      AUDIO_PROC;
     VoEExternalMedia*        EXTERNAL_MEDIA;
-    AudioSendStreamInfo*     LOCAL_AUDIO;
-    REMOTE_AUDIO_MAP         REMOTE_AUDIOS;
     rtc::scoped_refptr<AudioState> AUDIO_STATE;
     VoiceEngine*             AUDIO_ENGINE;
     webrtc::Transport*       TRANSPORT;
 }VOE;
 
-Call* g_call = nullptr;
+AudioLoopbackTransport* g_audioSendTransport = nullptr;
+VideoLoopbackTransport* g_videoSendTransport = nullptr;
+
 rtc::FileRotatingLogSink* g_logsink = nullptr;
 webrtc::Atomic32* g_stream_id = new Atomic32(0);
 rtc::scoped_refptr<webrtc::AudioDecoderFactory> g_audioDecoderFactory =
@@ -310,20 +400,17 @@ int Fox_SetPlayoutVolume(unsigned int volume)
 
 int Fox_CreateLocalAudioStream(unsigned int ssrc)
 {
-	if (VOE.LOCAL_AUDIO != nullptr) {
+	if (g_audioSendStream != nullptr) {
 		return -1;
 	}
-	AudioSendStream::Config streamConfig(&info->transport);
+    g_audioSendTransport = new AudioLoopbackTransport();
+	AudioSendStream::Config streamConfig(g_audioSendTransport);
 	streamConfig.voe_channel_id = VOE.LOCAL_ID;
 	streamConfig.rtp.ssrc = ssrc;
 	VOE.LOCAL_SSRC = ssrc;
-	AudioSendStream* stream =
+	g_audioSendStream =
 		g_call->CreateAudioSendStream(std::move(streamConfig));
-	info->stream = stream;
-	VOE.LOCAL_AUDIO = info;
-	webrtc::CodecInst audioCodec;
-	UMCS_GetAudioCodec(audioCodec);
-	VOE.CODEC->SetSendCodec(VOE.LOCAL_ID, audioCodec);
+	//VOE.CODEC->SetSendCodec(VOE.LOCAL_ID, audioCodec);
 	VOE.AUDIO_PROC->EnableHighPassFilter(true);
 	VOE.CODEC->SetVADStatus(VOE.LOCAL_ID, true, kVadAggressiveMid);
 #ifndef UMCS_IOS
@@ -334,144 +421,118 @@ int Fox_CreateLocalAudioStream(unsigned int ssrc)
 	VOE.AUDIO_PROC->SetEcStatus(true, kEcAec);
 #endif
 #endif
-	stream->Start();
-	*sid = id;
+	g_audioSendStream->Start();
 	return 0;
 }
 
 int Fox_DeleteLocalAudioStream()
 {
-	if (VOE.LOCAL_AUDIO == nullptr)
-		return 0;
-	VOE.LOCAL_AUDIO->stream->Stop();
-	g_call->DestroyAudioSendStream(VOE.LOCAL_AUDIO->stream);
-	delete VOE.LOCAL_AUDIO;
-	VOE.LOCAL_AUDIO = nullptr;
+	if (g_audioSendStream != nullptr)
+    {
+        return 0;
+    }
+	g_audioSendStream->Stop();
+	g_call->DestroyAudioSendStream(g_audioSendStream);
 	return 0;
 
 }
 
 int Fox_CreateRemoteAudioStream(unsigned int ssrc)
 {
-	AudioReceiveStreamInfo* info = new AudioReceiveStreamInfo(id, remoteSsrc);
-
-	info->channelId = VOE.BASE->CreateChannel();
+	g_audioReceiveChannelId = VOE.BASE->CreateChannel();
 	AudioReceiveStream::Config streamConfig;
-	streamConfig.rtp.local_ssrc = localSsrc;
-	streamConfig.rtp.remote_ssrc = remoteSsrc;
-	streamConfig.rtcp_send_transport = &info->transport;
-	streamConfig.voe_channel_id = info->channelId;
+	streamConfig.rtp.local_ssrc = VOE.LOCAL_SSRC;
+	streamConfig.rtp.remote_ssrc = ssrc;
+	streamConfig.rtcp_send_transport = g_audioSendTransport;
+	streamConfig.voe_channel_id = g_audioReceiveChannelId;
 	streamConfig.decoder_factory = g_audioDecoderFactory;
-	AudioReceiveStream* stream =
-		g_call->CreateAudioReceiveStream(std::move(streamConfig));
-	info->stream = stream;
-	VOE.REMOTE_AUDIOS[id] = info;
-	stream->Start();
-	*sid = id;
+	g_audioReceiveStream = g_call->CreateAudioReceiveStream(std::move(streamConfig));
+	g_audioReceiveStream->Start();
 	return 0;
 }
 
 int Fox_DeleteRemoteAudioStream()
 {
-	UMCS_CHECK_INIT;
-	auto item = VOE.REMOTE_AUDIOS.find(sid);
-	if (item == VOE.REMOTE_AUDIOS.end()) {
-		return -1;
-	}
-	item->second->stream->Stop();
-	int channelId = item->second->channelId;
-	VOE.BASE->StopReceive(channelId);
-	VOE.BASE->StopPlayout(channelId);
-	VOE.BASE->DeleteChannel(item->second->channelId);
-	g_call->DestroyAudioReceiveStream(item->second->stream);
-	delete item->second;
-	VOE.REMOTE_AUDIOS.erase(item);
+    if (g_audioReceiveStream == nullptr) {
+        return -1;
+    }
+	g_audioReceiveStream->Stop();
+	VOE.BASE->StopReceive(g_audioReceiveChannelId);
+	VOE.BASE->StopPlayout(g_audioReceiveChannelId);
+	VOE.BASE->DeleteChannel(g_audioReceiveChannelId);
+	g_call->DestroyAudioReceiveStream(g_audioReceiveStream);
 	return 0;
 }
 
 int Fox_CreateLocalVideoStream(int ssrc, void* view)
 {
-	UMCS_CHECK_INIT;
-	if (VIE.CAPTURE_VIDEO != nullptr) {
+	if (g_videoSendStream != nullptr) {
 		return -1;
 	}
-	int id = g_stream_id->operator++();
-	VideoSendStreamInfo* info = new VideoSendStreamInfo(id, ssrc);
-	VideoSendStream::Config streamConfig(&info->transport);
+    g_videoSendTransport = new VideoLoopbackTransport();
+	VideoSendStream::Config streamConfig(g_videoSendTransport);
 	streamConfig.encoder_settings.payload_name = "VP9";
 	streamConfig.encoder_settings.payload_type = 121;
 	streamConfig.rtp.max_packet_size = 1350;
-
-	streamConfig.encoder_settings.encoder =
-		webrtc::VideoEncoder::Create(VideoEncoder::kVp9);
-	VideoEncoderConfig encodeConfig;
-	UMCS_ConfigCameraCodec(encodeConfig);
-	VideoSendStream* stream = g_call->CreateVideoSendStream(
-		std::move(streamConfig), std::move(encodeConfig));
-	stream->SetSource(VIE.CAPTURE_SOURCE);
-	info->stream = stream;
-	VIE.CAPTURE_VIDEO = info;
-	stream->Start();
-	*sid = id;
+	streamConfig.encoder_settings.encoder = webrtc::VideoEncoder::Create(VideoEncoder::kVp9);
+    streamConfig.rtp.ssrcs.push_back(ssrc);
+    VIE.LOCAL_SSRC = ssrc;
+    //VideoEncoderConfig
+    webrtc::VideoEncoderConfig encoder_config;
+    webrtc::VCMCodecDataBase::Codec(webrtc::kVideoCodecVP8, &g_videoCodec);
+    encoder_config.encoder_specific_settings = new rtc::RefCountedObject<webrtc::VideoEncoderConfig::Vp8EncoderSpecificSettings>(g_videoCodec.codecSpecific.VP8);
+    encoder_config.encoder_specific_settings->FillEncoderSpecificSettings(&g_videoCodec);
+    encoder_config.content_type = webrtc::VideoEncoderConfig::ContentType::kRealtimeVideo;
+    encoder_config.number_of_streams = 1;
+    encoder_config.video_stream_factory = new rtc::RefCountedObject<EncoderStreamFactory>(g_videoCodec.plName, g_videoCodec.qpMax, g_videoCodec.maxFramerate, false, false);
+    
+	g_videoSendStream = g_call->CreateVideoSendStream(
+		std::move(streamConfig), std::move(encoder_config));
+	g_videoSendStream->SetSource(VIE.CAPTURE_SOURCE);
+	g_videoSendStream->Start();
 	return 0;
 }
 
 int Fox_DeleteLocalVideoStream()
 {
-	UMCS_CHECK_INIT;
-	if (VIE.CAPTURE_VIDEO == nullptr) {
-		return 0;
-	}
-	VIE.CAPTURE_VIDEO->stream->Stop();
-	g_call->DestroyVideoSendStream(VIE.CAPTURE_VIDEO->stream);
-	delete VIE.CAPTURE_VIDEO;
-	VIE.CAPTURE_VIDEO = nullptr;
+    if (g_videoSendStream != nullptr) {
+        return -1;
+    }
+	g_videoSendStream->Stop();
+	g_call->DestroyVideoSendStream(g_videoSendStream);
 	return 0;
 }
 
 int Fox_CreateRemoteVideoStream(int ssrc, void* view)
 {
-	UMCS_CHECK_INIT;
-	int id = getNewId();
-	VideoReceiveStreamInfo* info = new VideoReceiveStreamInfo(id, remoteSsrc);
-	VideoReceiveStream::Config streamConfig(&info->transport);
-	streamConfig.renderer = &info->sink;
-	streamConfig.rtp.remote_ssrc = remoteSsrc;
-	streamConfig.rtp.local_ssrc = localSsrc;
-	streamConfig.decoders = UMCS_GetVideoDecoders();
+	VideoReceiveStream::Config streamConfig(g_videoSendTransport);
+	streamConfig.renderer = &g_videoSink;
+	streamConfig.rtp.remote_ssrc = ssrc;
+	streamConfig.rtp.local_ssrc = VIE.LOCAL_SSRC;
+    webrtc::VideoReceiveStream::Decoder decoder;
+    decoder.decoder = webrtc::VideoDecoder::Create(webrtc::VideoDecoder::DecoderType::kVp8);
+    streamConfig.decoders.push_back(decoder);
 	streamConfig.rtp.rtcp_xr.receiver_reference_time_report = true;
 	streamConfig.rtp.nack.rtp_history_ms = 2000;
-	VideoReceiveStream* stream =
-		g_call->CreateVideoReceiveStream(std::move(streamConfig));
-	info->stream = stream;
-	VIE.REMOTE_VIDEOS[id] = info;
-	stream->Start();
-	*sid = id;
+	g_videoReceiveStream = g_call->CreateVideoReceiveStream(std::move(streamConfig));
+	g_videoReceiveStream->Start();
 	return 0;
 }
 int Fox_DeleteRemoteVideoStream()
 {
-	UMCS_CHECK_INIT;
-	auto stream = VIE.REMOTE_VIDEOS.find(sid);
-	if (stream == VIE.REMOTE_VIDEOS.end()) {
+	if (g_videoReceiveStream == nullptr) {
 		return -1;
 	}
-	if (stream->second->render != nullptr) {
-		UMCS_StopRemoteRender(sid);
-	}
-	stream->second->stream->Stop();
-	g_call->DestroyVideoReceiveStream(stream->second->stream);
-	delete stream->second;
-	VIE.REMOTE_VIDEOS.erase(stream);
+	g_videoReceiveStream->Stop();
+	g_call->DestroyVideoReceiveStream(g_videoReceiveStream);
 	return 0;
 }
 
 int Fox_InsertMediaData(char* data, int len)
 {
 	if (g_call != nullptr) {
-		PacketTime pt;
-		g_call->Receiver()->DeliverPacket(MediaType::ANY, (const uint8_t*)data, len,
-			pt);
+        webrtc::PacketTime pt;
+		g_call->Receiver()->DeliverPacket(MediaType::ANY, (const uint8_t*)data, len, pt);
 		return 0;
 	}
 	return 0;
