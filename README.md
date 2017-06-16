@@ -1,4 +1,4 @@
 # foxrtc
 media sdk based on webrtc
 
-还在开发中，等写完了，会重新发布
+项目体积很大约为300MB，因为一个精简过的webrtc在里面
