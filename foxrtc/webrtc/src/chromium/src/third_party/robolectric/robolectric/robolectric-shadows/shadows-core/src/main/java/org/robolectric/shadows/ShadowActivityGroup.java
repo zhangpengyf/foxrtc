@@ -1,0 +1,28 @@
+package org.robolectric.shadows;
+
+import android.app.Activity;
+import android.app.ActivityGroup;
+import org.robolectric.annotation.Implementation;
+import org.robolectric.annotation.Implements;
+
+/**
+ * Shadow for {@link android.app.ActivityGroup}.
+ */
+@Implements(ActivityGroup.class)
+public class ShadowActivityGroup extends ShadowActivity {
+  private Activity currentActivity;
+
+  @Implementation
+  public android.app.Activity getCurrentActivity() {
+    return currentActivity;
+  }
+
+  /**
+   * Non-Android accessor.
+   *
+   * @param activity Current activity.
+   */
+  public void setCurrentActivity(Activity activity) {
+    currentActivity = activity;
+  }
+}
