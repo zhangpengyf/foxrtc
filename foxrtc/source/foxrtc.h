@@ -1,31 +1,44 @@
 #pragma once
 
-void (outgoingvideodata)(const char* data, int len, bool isRtcp);
-void (outgoingvideodata)(const char* data, int len, bool isRtcp);
+class FoxrtcTransport
+{
+public:
+	FoxrtcTransport();
+	virtual ~FoxrtcTransport();
+	virtual int SendRtp(const char* data, int len);
+	virtual int SendRtcp(const char* data, int len);
+private:
 
-int Fox_Init();
-int Fox_Uninit();
+};
 
-int Fox_GetDeviceInfo();
+class Foxrtc
+{
+public:
+	Foxrtc();
+	virtual ~Foxrtc();
 
-int Fox_OpenCamera(int index);
-int Fox_CloseCamera();
+	static Foxrtc& Instance();
 
-int Fox_SelectMicrophone(int index);
-int Fox_SelectSpeaker(int index);
+	virtual int Init(FoxrtcTransport* transport) = 0;
+	virtual int Uninit() = 0;
 
-int Fox_SetMicrophoneVolume(unsigned int volume);
-int Fox_SetPlayoutVolume(unsigned int volume);
+	virtual int GetDeviceInfo() = 0;
 
-int Fox_CreateLocalAudioStream(unsigned int ssrc);
-int Fox_DeleteLocalAudioStream();
-int Fox_CreateRemoteAudioStream(unsigned int ssrc);
-int Fox_DeleteRemoteAudioStream();
+	virtual int OpenCamera(int index) = 0;
+	virtual int CloseCamera() = 0;
 
-int Fox_CreateLocalVideoStream(int ssrc, void* view);
-int Fox_DeleteLocalVideoStream();
-int Fox_CreateRemoteVideoStream(int ssrc, void* view);
-int Fox_DeleteRemoteVideoStream();
+	virtual int CreateLocalAudioStream(unsigned int ssrc) = 0;
+	virtual int DeleteLocalAudioStream() = 0;
+	virtual int CreateRemoteAudioStream(unsigned int ssrc) = 0;
+	virtual int DeleteRemoteAudioStream() = 0;
 
-int Fox_InsertMediaData(char* data, int len);
+	virtual int CreateLocalVideoStream(int ssrc, void* view) = 0;
+	virtual int DeleteLocalVideoStream() = 0;
+	virtual int CreateRemoteVideoStream(int ssrc, void* view) = 0;
+	virtual int DeleteRemoteVideoStream() = 0;
+
+	virtual int IncomingData(const char* data, int len) = 0;
+
+};
+
 
