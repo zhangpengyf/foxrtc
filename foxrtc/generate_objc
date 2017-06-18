@@ -1,0 +1,5 @@
+#! /bin/sh
+
+cd swig_objc
+../tools/swig/swig -c++ -objc swig_objc.i
+echo "DONE!"

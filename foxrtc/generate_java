@@ -1,0 +1,5 @@
+#! /bin/sh
+set -e
+cd swig_java
+../tools/swig/swig -c++ -java -package com.foxrtc.android -outdir ./com/foxrtc/android/ swig_java.i
+echo "DONE!"
